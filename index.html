@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAGBREAK</title>
+  <link rel="icon" type="image/png" href="./images/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+  />
+
+  <style>
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+    
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(30, 73, 65, 0.2);
+      border-radius: 50%;
+      border-top-color: #1e4941;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    body {
+      overflow: hidden;
+      background-color: #1e4941;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+    }
+    
+    body.content-loaded {
+      opacity: 1;
+    }
+
+    @font-face {
+      font-family: 'TheFont';
+      src: url("https://garet.typeforward.com/assets/fonts/shared/TFMixVF.woff2") format('woff2');
+    }
+
+    #set1 {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: zoomIn 3s ease-in-out forwards;
+      transform: translateY(-40px);
+    }
+
+    #tag_break_logo {
+      width: 20em;
+      opacity: 0;
+      animation: logoZoom 3s ease-in-out forwards;
+    }
+
+    @keyframes logoZoom {
+      0% { transform: scale(1); opacity: 0; }
+      50% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1.1); }
+    }
+
+    @keyframes zoomIn {
+      0% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
+    #set2 {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    #set2.show {
+      opacity: 1;
+    }
+
+    .breathe-animation {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 90%;
+      height: 100vh;
+      text-align: center;
+    }
+
+    #text {
+      font-family: 'TheFont';
+      font-size: clamp(3rem, 8vw, 10rem);
+      color: #e3bcae;
+      transform: translateY(-40px);
+      line-height: 1.1;
+    }
+
+    .animate {
+      animation: letter-breathe 25s ease-in-out infinite;
+    }
+
+    #c-text {
+      color: #e3bcae;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      margin-top: 1rem;
+      opacity: 0.8;
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 1px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .social-icons a {
+      color: #e3bcae;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease, opacity 0.3s ease, color 0.3s ease;
+      opacity: 0.9;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+
+    @keyframes letter-breathe {
+      from, to { font-variation-settings: 'wght' 100; }
+      50% { font-variation-settings: 'wght' 400; }
+    }
+
+    @media (max-width: 768px) {
+      #text { transform: translateY(-20px); }
+      .social-icons a { font-size: 1.3rem; }
+    }
+
+    @media (max-width: 480px) {
+      #text { transform: translateY(-50px); }
+      #c-text { font-size: 1rem; margin-top: 0.5rem; }
+      .social-icons { gap: 1rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading-screen">
+    <div class="loader"></div>
+  </div>
+
+  <div id="set1">
+    <img src="./images/pink_logo.webp" id="tag_break_logo" alt="TAG BREAK Logo">
+  </div>
+
+  <div id="set2">
+    <div class="breathe-animation">
+      <span id="text">TAG <br> BREAK</span>
+      <p id="c-text">. Coming soon .</p>
+      <div class="social-icons">
+        <a href="https://instagram.com/yourusername" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:yourmail@example.com"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      const body = document.body;
+      
+      loadingScreen.style.opacity = '0';
+      
+      setTimeout(function() {
+        loadingScreen.style.display = 'none';
+        body.classList.add('content-loaded');
+        
+        setTimeout(() => {
+          document.getElementById("set1").style.display = "none";
+          const set2 = document.getElementById("set2");
+          set2.style.display = "flex";
+          setTimeout(() => set2.classList.add("show"), 100);
+          document.getElementById("text").classList.add("animate");
+        }, 3200);
+      }, 500);
+    });
+  </script>
+</body>
+</html>
